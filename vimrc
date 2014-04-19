@@ -257,6 +257,9 @@ if count(g:vimified_packages, 'fancy')
   else
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
   endif
+
+  Bundle 'myusuf3/numbers.vim'
+  let g:numbers_exclude = ['nerdtree']
 endif
 
 " Package: Ruby
