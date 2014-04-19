@@ -181,6 +181,7 @@ if count(g:vimified_packages, 'fancy')
     let displayname = winwidth(0) > 42 ? fullname : fname
     return fname == 'ControlP' ? g:lightline.ctrlp_item :
           \ &filetype == 'netrw' ? '' :
+          \ &filetype == 'fugitiveblame' ? '' :
           \ fname =~ 'NERD_tree' ? '' :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
           \ ('' != displayname ? displayname : '[No Name]') .
@@ -204,6 +205,7 @@ if count(g:vimified_packages, 'fancy')
     return fname == 'ControlP' ? 'CtrlP' :
           \ fname =~ 'NERD_tree' ? 'NERDTree' :
           \ &filetype == 'netrw' ? 'NETRW' :
+          \ &filetype == 'fugitiveblame' ? 'GIT BLAME' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
@@ -237,18 +239,21 @@ if count(g:vimified_packages, 'fancy')
   function! MyFiletype()
     return &filetype == 'nerdtree' ? '' :
           \ &filetype == 'netrw' ? '' :
+          \ &filetype == 'fugitiveblame' ? '' :
           \ winwidth(0) > 70 ? strlen(&filetype) ? &filetype : 'no ft' : ''
   endfunction
 
   function! MyFileencoding()
     return &filetype == 'nerdtree' ? '' :
           \ &filetype == 'netrw' ? '' :
+          \ &filetype == 'fugitiveblame' ? '' :
           \ winwidth(0) > 80 ? (strlen(&fenc) ? &fenc : &enc) : ''
   endfunction
 
   function! MyFileformat()
     return &filetype == 'nerdtree' ? '' :
           \ &filetype == 'netrw' ? '' :
+          \ &filetype == 'fugitiveblame' ? '' :
           \ winwidth(0) > 90 ? &fileformat : ''
   endfunction
 
