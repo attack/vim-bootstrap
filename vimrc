@@ -44,6 +44,7 @@ if count(g:vimified_packages, 'general')
   Bundle 'regreplop.vim'
   Bundle 'tpope/vim-repeat'
   Bundle 'tpope/vim-unimpaired'
+  Bundle 'tpope/vim-vinegar'
 
   Bundle 'epmatsw/ag.vim'
   function! AgGrep()
@@ -87,6 +88,7 @@ if count(g:vimified_packages, 'general')
   nmap Sj :SplitjoinJoin<cr>
 
   Bundle 'scrooloose/nerdtree'
+  let NERDTreeHijackNetrw = 0
   let g:NERDTreeWinSize = 20
   let g:NERDTreeChDirMode=2
   let NERDTreeShowHidden=1
@@ -165,11 +167,11 @@ if count(g:vimified_packages, 'fancy')
     \ }
 
   function! MyModified()
-    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    return &filetype =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
   endfunction
 
   function! MyReadonly()
-    return &ft !~? 'help' && &readonly ? 'RO' : ''
+    return &filetype !~? 'help' && &readonly ? 'RO' : ''
   endfunction
 
   function! MyFilename()
@@ -178,6 +180,7 @@ if count(g:vimified_packages, 'fancy')
     let fullname = fname != '' && len(fullname_list) > 0 ? fullname_list[0] : ''
     let displayname = winwidth(0) > 42 ? fullname : fname
     return fname == 'ControlP' ? g:lightline.ctrlp_item :
+          \ &filetype == 'netrw' ? '' :
           \ fname =~ 'NERD_tree' ? '' :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
           \ ('' != displayname ? displayname : '[No Name]') .
@@ -200,6 +203,7 @@ if count(g:vimified_packages, 'fancy')
     let fname = expand('%:t')
     return fname == 'ControlP' ? 'CtrlP' :
           \ fname =~ 'NERD_tree' ? 'NERDTree' :
+          \ &filetype == 'netrw' ? 'NETRW' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
@@ -232,16 +236,19 @@ if count(g:vimified_packages, 'fancy')
 
   function! MyFiletype()
     return &filetype == 'nerdtree' ? '' :
+          \ &filetype == 'netrw' ? '' :
           \ winwidth(0) > 70 ? strlen(&filetype) ? &filetype : 'no ft' : ''
   endfunction
 
   function! MyFileencoding()
     return &filetype == 'nerdtree' ? '' :
+          \ &filetype == 'netrw' ? '' :
           \ winwidth(0) > 80 ? (strlen(&fenc) ? &fenc : &enc) : ''
   endfunction
 
   function! MyFileformat()
     return &filetype == 'nerdtree' ? '' :
+          \ &filetype == 'netrw' ? '' :
           \ winwidth(0) > 90 ? &fileformat : ''
   endfunction
 
