@@ -499,6 +499,13 @@ if has('persistent_undo')
   set undofile
 endif
 
+" cursorline on active windows only
+augroup cline
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
 "
 " Keybindings
 "
