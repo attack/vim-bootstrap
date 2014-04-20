@@ -297,14 +297,29 @@ if count(g:vimified_packages, 'fancy')
     return lightline#statusline(0)
   endfunction
 
+  Bundle 'myusuf3/numbers.vim'
+  let g:numbers_exclude = ['nerdtree']
+
+  " colorcolumn on active windows only
   if exists('+colorcolumn')
-    set colorcolumn=80
+    augroup ccolumn
+      au!
+      au VimEnter,WinEnter,BufWinEnter * setlocal colorcolumn=80
+      au WinLeave * setlocal colorcolumn=
+    augroup END
   else
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
   endif
 
-  Bundle 'myusuf3/numbers.vim'
-  let g:numbers_exclude = ['nerdtree']
+  " cursorline on active windows only
+  augroup cline
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+  augroup END
+
+  " fix windows on resize
+  au VimResized * :wincmd =
 endif
 
 " Package: Coding
@@ -520,16 +535,6 @@ if has('persistent_undo')
   set undodir=~/.vim/backups
   set undofile
 endif
-
-" cursorline on active windows only
-augroup cline
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
-
-" fix windows on resize
-au VimResized * :wincmd =
 
 "
 " Keybindings
