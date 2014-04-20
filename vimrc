@@ -85,8 +85,17 @@ if count(g:vimified_packages, 'general')
   Bundle 'kien/ctrlp.vim'
   let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
   nnoremap <silent> <leader>f :CtrlP<CR>
-  nnoremap <silent> <leader>F :ClearCtrlPCache<CR>\|:CtrlP<CR>
   noremap <leader>b :CtrlPBuffer<CR>
+
+  if executable('ag')
+    " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
+  else
+    nnoremap <silent> <leader>F :ClearCtrlPCache<CR>\|:CtrlP<CR>
+  endif
 
   " File Renaming (credit: garybernhardt)
   function! RenameFile()
