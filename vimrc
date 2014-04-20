@@ -506,6 +506,9 @@ augroup cline
   au WinLeave * setlocal nocursorline
 augroup END
 
+" fix windows on resize
+au VimResized * :wincmd =
+
 "
 " Keybindings
 "
