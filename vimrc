@@ -2,44 +2,47 @@ set nocompatible
 filetype on
 filetype off
 
-if filereadable(expand('~/.vimrc.shared'))
-  source ~/.vimrc.shared
-endif
-
-if filereadable(expand('~/.vimrc.local'))
-  source ~/.vimrc.local
-endif
-
 let mapleader = ','
+
+let s:shared_config = expand($HOME . '/.vimrc.shared')
+if filereadable(s:shared_config)
+  exec ':so ' . s:shared_config
+endif
+
+let s:local_config = expand($HOME . '/.vimrc.local')
+if filereadable(s:local_config)
+  exec ':so ' . s:local_config
+endif
 
 " PACKAGE LIST
 " Use this variable inside your local configuration to declare
 " which package you would like to include
 "
 if ! exists('g:vimified_packages')
-  let g:vimified_packages = ['general', 'fancy', 'ruby', 'rails', 'rspec', 'ctags', 'colour']
+  let g:vimified_packages = ['general', 'fancy', 'coding', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'colour']
 endif
 
 " Vundle
 "
+"""""""""""""""""""""""""""""""""""""""
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-sensible'
 
-" Install user-supplied Bundles
-"
-let s:sharedbundles = expand($HOME . '/.vimrc.bundles.shared')
-if filereadable(s:sharedbundles)
-  exec ':so ' . s:sharedbundles
+let s:shared_bundles = expand($HOME . '/.vimrc.bundles.shared')
+if filereadable(s:shared_bundles)
+  exec ':so ' . s:shared_bundles
 endif
 
-let s:localbundles = expand($HOME . '/.vimrc.bundles.local')
-if filereadable(s:localbundles)
-  exec ':so ' . s:localbundles
+let s:local_bundles = expand($HOME . '/.vimrc.bundles.local')
+if filereadable(s:local_bundles)
+  exec ':so ' . s:local_bundles
 endif
 
 " Package: General
+"
+"""""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'general')
   Bundle 'regreplop.vim'
   Bundle 'tpope/vim-repeat'
@@ -60,32 +63,16 @@ if count(g:vimified_packages, 'general')
     cw
   endfunction
 
-  " AgGrep current word
   map <leader>a :call AgGrep()<CR>
-  " AgVisual current selection
   vmap <leader>a :call AgVisual()<CR>
-
-  Bundle 'tpope/vim-fugitive'
-  map <leader>g :Gblame<CR>
 
   Bundle 'tpope/vim-surround'
   " Add $ as a jQuery surround, _ for Underscore.js
   autocmd FileType javascript let b:surround_36 = "$(\r)"
         \ | let b:surround_95 = "_(\r)"
 
-  Bundle 'tpope/vim-commentary'
-  xmap <leader>/ <Plug>Commentary
-  nmap <leader>/ <Plug>CommentaryLine
-
   Bundle 'kana/vim-textobj-user'
-  Bundle 'Julian/vim-textobj-variable-segment'
   Bundle 'Peeja/vim-cdo'
-
-  Bundle 'AndrewRadev/splitjoin.vim'
-  let g:splitjoin_split_mapping = ''
-  let g:splitjoin_join_mapping = ''
-  nmap Ss :SplitjoinSplit<cr>
-  nmap Sj :SplitjoinJoin<cr>
 
   Bundle 'scrooloose/nerdtree'
   let NERDTreeHijackNetrw = 0
@@ -125,17 +112,6 @@ if count(g:vimified_packages, 'general')
   inoremap <tab> <c-r>=InsertTabWrapper()<cr>
   inoremap <s-tab> <c-n>
 
-  " strip trailing whitespace on save for code files
-  function! StripTrailingWhitespace()
-    let save_cursor = getpos('.')
-    %s/\s\+$//e
-    call setpos('.', save_cursor)
-  endfunction
-  " rails
-  autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml call StripTrailingWhitespace()
-  " misc
-  autocmd BufWritePre *.feature call StripTrailingWhitespace()
-
   function! SetupWrapping()
     set wrap
     set wrapmargin=2
@@ -145,6 +121,8 @@ if count(g:vimified_packages, 'general')
 endif
 
 " Package: Fancy
+"
+"""""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'fancy')
   Bundle 'itchyny/lightline.vim'
 
@@ -267,34 +245,72 @@ if count(g:vimified_packages, 'fancy')
   let g:numbers_exclude = ['nerdtree']
 endif
 
+" Package: Coding
+"
+"""""""""""""""""""""""""""""""""""""""
+if count(g:vimified_packages, 'coding')
+  Bundle 'tpope/vim-abolish'
+
+  Bundle 'tpope/vim-fugitive'
+  map <leader>g :Gblame<CR>
+
+  Bundle 'tpope/vim-commentary'
+  xmap <leader>/ <Plug>Commentary
+  nmap <leader>/ <Plug>CommentaryLine
+
+  Bundle 'Julian/vim-textobj-variable-segment'
+
+  Bundle 'AndrewRadev/splitjoin.vim'
+  let g:splitjoin_split_mapping = ''
+  let g:splitjoin_join_mapping = ''
+  nmap Ss :SplitjoinSplit<cr>
+  nmap Sj :SplitjoinJoin<cr>
+
+  " strip trailing whitespace on save
+  function! StripTrailingWhitespace()
+    let save_cursor = getpos('.')
+    %s/\s\+$//e
+    call setpos('.', save_cursor)
+  endfunction
+  autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml call StripTrailingWhitespace()
+endif
+
 " Package: Ruby
-if count(g:vimified_packages, 'ruby')
+"
+"""""""""""""""""""""""""""""""""""""""
+if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
   Bundle 'vim-ruby/vim-ruby'
   Bundle 'tpope/vim-bundler'
   Bundle 'nelstrom/vim-textobj-rubyblock'
 
   " set question mark to be part of a VIM word. in Ruby it is!
   autocmd FileType ruby set iskeyword=@,48-57,_,?,!,192-255
+
+  set wildignore+=*.gem
 endif
 
 " Package: Rails
+"
+"""""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'rails')
   Bundle 'tpope/vim-rails'
   let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers"'
 
-  Bundle 'tpope/vim-abolish'
   Bundle 'tpope/vim-haml'
-  Bundle 'kchmck/vim-coffee-script'
-  Bundle 'mustache/vim-mustache-handlebars'
-  Bundle 'pangloss/vim-javascript'
 
   Bundle 'plasticboy/vim-markdown'
   let g:vim_markdown_folding_disabled=1
 
-  au BufRead,BufNewFile {Gemfile,Rakefile,config.ru} set filetype=ruby
+  autocmd FileType scss set iskeyword=@,48-57,_,-,?,!,192-255
+
+  set wildignore+=*/public/assets/**
+  set wildignore+=*/vendor/rails/**
+  set wildignore+=*/vendor/cache/**
 endif
 
 " Package: Rspec
+"
+"""""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'rspec')
   Bundle 'tpope/vim-dispatch'
   Bundle 'thoughtbot/vim-rspec'
@@ -334,23 +350,28 @@ if count(g:vimified_packages, 'rspec')
   " Promote to let (credit: garybernhardt)
   function! PromoteToLet()
     :normal! dd
-    " :exec '?^\s*it\>'
     :normal! P
     :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
     :normal ==
-    " :normal! <<
-    " :normal! ilet(:
-    " :normal! f 2cl) {
-    " :normal! A }
   endfunction
   :command! PromoteToLet :call PromoteToLet()
   map <leader>p :PromoteToLet<cr>
+endif
 
-  autocmd FileType scss set iskeyword=@,48-57,_,-,?,!,192-255
+" Package: Javascript
+"
+"""""""""""""""""""""""""""""""""""""""
+if count(g:vimified_packages, 'javascript')
+  Bundle 'kchmck/vim-coffee-script'
+  Bundle 'mustache/vim-mustache-handlebars'
+  Bundle 'pangloss/vim-javascript'
+
   au BufNewFile,BufRead *.json set filetype=javascript
 endif
 
 " Package: Ctags
+"
+"""""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'ctags')
   Bundle 'folke/AutoTag'
 
@@ -360,6 +381,8 @@ if count(g:vimified_packages, 'ctags')
 endif
 
 " Package: Colour
+"
+"""""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'colour') || count(g:vimified_packages, 'color')
   Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
@@ -373,6 +396,7 @@ syntax on
 "
 " Options
 "
+"""""""""""""""""""""""""""""""""""""""
 
 set notimeout      " no command timeout
 set expandtab      " use soft tabs
@@ -390,12 +414,8 @@ set wildmode=longest,list:longest
 set wildignore+=*vim/backups*
 set wildignore+=*DS_Store*
 set wildignore+=tags
-set wildignore+=*/public/assets/**
 set wildignore+=*/tmp/**
 set wildignore+=*/log/**
-set wildignore+=*/vendor/rails/**
-set wildignore+=*/vendor/cache/**
-set wildignore+=*.gem
 set wildignore+=.git,*.rbc,*.class,.svn,*.png,*.jpg,*.gif
 
 set list           " show whitespace
@@ -419,20 +439,19 @@ set cursorline     " highlight current line
 set foldmethod=manual
 set nofoldenable
 
-" Make searches case-sensitive only if they contain upper-case characters
+" make searches case-sensitive only if they contain upper-case characters
 set smartcase
 
-" Store temporary files in a central spot
+" store temporary files in a central spot
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
-" Switch syntax highlighting on, when the terminal has colors
+" switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has('gui_running')
   set hlsearch
 endif
 
-" Persistent Undo
-" Keep undo history across sessions, by storing in file.
+" keep undo history across sessions, by storing in file.
 if has('persistent_undo')
   silent !mkdir ~/.vim/backups > /dev/null 2>&1
   set undodir=~/.vim/backups
@@ -442,6 +461,7 @@ endif
 "
 " Keybindings
 "
+"""""""""""""""""""""""""""""""""""""""
 
 " clear the search buffer when hitting space
 :nnoremap <space> :nohlsearch<cr>
@@ -449,30 +469,23 @@ endif
 " sometimes I hold the shift too long ... just allow it
 cabbrev W w
 cabbrev Q q
-cabbrev Wq wq
 cabbrev Tabe tabe
-cabbrev Tabc tabc
 
-" Split screen
+" split screen
 :noremap <leader>v :vsp<CR>
 :noremap <leader>h :split<CR>
 
-" Make current window the only one (within tab)
-:noremap <leader>o :only<CR>
-
-" Opens an edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>e
+" opens an edit command with the path of the currently edited file filled in
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
-" Opens a tab edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>t
+" opens a tab edit command with the path of the currently edited file filled in
 " map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
-" Make Y consistent with D and C.
+" make Y consistent with D and C
 map Y y$
 map <silent> <leader>y :<C-u>silent '<,'>w !pbcopy<CR>
 
-" Copy current file path to system pasteboard.
+" copy current file path to system pasteboard
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
 map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%").":".line(".")<CR>
 
@@ -483,11 +496,11 @@ vmap <s-tab> <gv
 " reload .vimrc
 map <leader>rv :source ~/.vimrc<CR>
 
-" Previous/next quickfix file listings (e.g. search results)
+" open next/previous quickfix row
 map <M-D-Down>  :cn<CR>
 map <M-D-Up>    :cp<CR>
 
-" Open and close the quickfix window
+" open/close quickfix window
 map <leader>qo  :copen<CR>
 map <leader>qc  :cclose<CR>
 
