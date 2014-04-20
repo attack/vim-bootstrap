@@ -166,9 +166,12 @@ if count(g:vimified_packages, 'fancy')
     let fullname_list = split(expand('%:p'), getcwd() . '/')
     let fullname = fname != '' && len(fullname_list) > 0 ? fullname_list[0] : ''
     let displayname = winwidth(0) > 42 ? fullname : fname
+
     return fname == 'ControlP' ? g:lightline.ctrlp_item :
           \ &filetype == 'netrw' ? '' :
           \ &filetype == 'fugitiveblame' ? '' :
+          \ &filetype == 'qf' ? len(getqflist()) . ' results' :
+          \ &filetype == 'help' ? fname :
           \ fname =~ 'NERD_tree' ? '' :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
           \ ('' != displayname ? displayname : '[No Name]') .
@@ -177,7 +180,7 @@ if count(g:vimified_packages, 'fancy')
 
   function! MyFugitive()
     try
-      if expand('%:t') !~? 'NERD' && exists('*fugitive#head')
+      if expand('%:t') !~? 'NERD' && &filetype != 'qf' && exists('*fugitive#head')
         let mark = ''
         let _ = fugitive#head()
         return strlen(_) ? mark._ : ''
@@ -189,10 +192,33 @@ if count(g:vimified_packages, 'fancy')
 
   function! MyMode()
     let fname = expand('%:t')
+
+    if fname =~ 'NERD_tree'
+      call lightline#link('i')
+    endif
+
+    if &filetype == 'netrw'
+      call lightline#link('R')
+    endif
+
+    if &filetype == 'fugitiveblame'
+      call lightline#link('V')
+    endif
+
+    if &filetype == 'qf'
+      call lightline#link('R')
+    endif
+
+    if &filetype == 'help'
+      call lightline#link('V')
+    endif
+
     return fname == 'ControlP' ? 'CtrlP' :
           \ fname =~ 'NERD_tree' ? 'NERDTree' :
           \ &filetype == 'netrw' ? 'NETRW' :
           \ &filetype == 'fugitiveblame' ? 'GIT BLAME' :
+          \ &filetype == 'qf' ? 'QUICKFIX' :
+          \ &filetype == 'help' ? 'HELP' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
@@ -227,6 +253,8 @@ if count(g:vimified_packages, 'fancy')
     return &filetype == 'nerdtree' ? '' :
           \ &filetype == 'netrw' ? '' :
           \ &filetype == 'fugitiveblame' ? '' :
+          \ &filetype == 'qf' ? '' :
+          \ expand('%:t') == 'ControlP' ? '' :
           \ winwidth(0) > 70 ? strlen(&filetype) ? &filetype : 'no ft' : ''
   endfunction
 
@@ -234,6 +262,8 @@ if count(g:vimified_packages, 'fancy')
     return &filetype == 'nerdtree' ? '' :
           \ &filetype == 'netrw' ? '' :
           \ &filetype == 'fugitiveblame' ? '' :
+          \ &filetype == 'qf' ? '' :
+          \ expand('%:t') == 'ControlP' ? '' :
           \ winwidth(0) > 80 ? (strlen(&fenc) ? &fenc : &enc) : ''
   endfunction
 
@@ -241,6 +271,8 @@ if count(g:vimified_packages, 'fancy')
     return &filetype == 'nerdtree' ? '' :
           \ &filetype == 'netrw' ? '' :
           \ &filetype == 'fugitiveblame' ? '' :
+          \ &filetype == 'qf' ? '' :
+          \ expand('%:t') == 'ControlP' ? '' :
           \ winwidth(0) > 90 ? &fileformat : ''
   endfunction
 
