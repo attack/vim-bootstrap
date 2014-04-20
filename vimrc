@@ -153,34 +153,47 @@ if count(g:vimified_packages, 'fancy')
     \ }
     \ }
 
-  function! MyModified()
-    return &filetype =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  function! MyMinStatus(colour_mode, mode, fugitive, filename)
+    if a:colour_mode != ''
+      call lightline#link(a:colour_mode)
+    endif
+
+    if a:fugitive == 1
+      let g:lightline.my_fugitive = MyDefaultFugitive()
+    else
+      let g:lightline.my_fugitive = ''
+    endif
+
+    let g:lightline.my_mode = a:mode
+    let g:lightline.my_filename = a:filename
+
+    let g:lightline.my_filetype = ''
+    let g:lightline.my_encoding = ''
+    let g:lightline.my_format = ''
   endfunction
 
-  function! MyReadonly()
-    return &filetype !~? 'help' && &readonly ? 'RO' : ''
+  function! MyFullStatus(mode, filename, filetype, encoding, format)
+    call MyMinStatus('', a:mode, 1, a:filename)
+
+    let g:lightline.my_filetype = a:filetype
+    let g:lightline.my_encoding = a:encoding
+    let g:lightline.my_format = a:format
   endfunction
 
-  function! MyFilename()
+  function! MyDefaultFilename()
     let fname = expand('%:t')
-    let fullname_list = split(expand('%:p'), getcwd() . '/')
-    let fullname = fname != '' && len(fullname_list) > 0 ? fullname_list[0] : ''
-    let displayname = winwidth(0) > 42 ? fullname : fname
+    let path_list = split(expand('%:p'), getcwd() . '/')
+    let relative_path = fname != '' && len(path_list) > 0 ? path_list[0] : ''
+    let display_name = winwidth(0) > 42 ? relative_path : fname
 
-    return fname == 'ControlP' ? g:lightline.ctrlp_item :
-          \ &filetype == 'netrw' ? '' :
-          \ &filetype == 'fugitiveblame' ? '' :
-          \ &filetype == 'qf' ? len(getqflist()) . ' results' :
-          \ &filetype == 'help' ? fname :
-          \ fname =~ 'NERD_tree' ? '' :
-          \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-          \ ('' != displayname ? displayname : '[No Name]') .
-          \ ('' != MyModified() ? ' ' . MyModified() : '')
+    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+         \ ('' != display_name ? display_name : '[No Name]') .
+         \ ('' != MyModified() ? ' ' . MyModified() : '')
   endfunction
 
-  function! MyFugitive()
+  function! MyDefaultFugitive()
     try
-      if expand('%:t') !~? 'NERD' && &filetype != 'qf' && exists('*fugitive#head')
+      if exists('*fugitive#head')
         let mark = ''
         let _ = fugitive#head()
         return strlen(_) ? mark._ : ''
@@ -190,40 +203,75 @@ if count(g:vimified_packages, 'fancy')
     return ''
   endfunction
 
+  function! MyDefault()
+    let my_filename = MyDefaultFilename()
+    let my_mode = (winwidth(0) > 60 ? lightline#mode() : '')
+    let my_filetype = (winwidth(0) > 70 ? strlen(&filetype) ? &filetype : 'no ft' : '')
+    let my_encoding = (winwidth(0) > 80 ? (strlen(&fenc) ? &fenc : &enc) : '')
+    let my_format = (winwidth(0) > 90 ? &fileformat : '')
+
+    call MyFullStatus(my_mode, my_filename, my_filetype, my_encoding, my_format)
+  endfunction
+
+  function! DetectMode()
+    if expand('%:t') == 'ControlP'
+      call MyMinStatus('', 'CtrlP', 0, g:lightline.ctrlp_item)
+
+    elseif expand('%:t') =~ 'NERD_tree'
+      call MyMinStatus('i', 'NERDTree', 0, '')
+
+    elseif &filetype == 'netrw'
+      call MyMinStatus('R', 'NETRW', 1, '')
+
+    elseif &filetype == 'fugitiveblame'
+      call MyMinStatus('V', 'GIT BLAME', 1, '')
+
+    elseif &filetype == 'qf'
+      call MyMinStatus('R', 'QUICKFIX', 0, len(getqflist()) . ' results')
+
+    elseif &filetype == 'help'
+      call MyMinStatus('V', 'HELP', 0, expand('%:t'))
+
+    else
+      call MyDefault()
+    endif
+  endfunction
+
   function! MyMode()
-    let fname = expand('%:t')
+    call DetectMode()
+    return exists('g:lightline.my_mode') ? g:lightline.my_mode : ''
+  endfunction
 
-    if fname =~ 'NERD_tree'
-      call lightline#link('i')
-    endif
+  function! MyModified()
+    return &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
 
-    if &filetype == 'netrw'
-      call lightline#link('R')
-    endif
+  function! MyReadonly()
+    return &readonly ? 'RO' : ''
+  endfunction
 
-    if &filetype == 'fugitiveblame'
-      call lightline#link('V')
-    endif
+  function! MyFilename()
+    return exists('g:lightline.my_filename') ? g:lightline.my_filename : expand('%:t')
+  endfunction
 
-    if &filetype == 'qf'
-      call lightline#link('R')
-    endif
+  function! MyFugitive()
+    return exists('g:lightline.my_fugitive') ? g:lightline.my_fugitive : ''
+  endfunction
 
-    if &filetype == 'help'
-      call lightline#link('V')
-    endif
+  function! MyFiletype()
+    return exists('g:lightline.my_filetype') ? g:lightline.my_filetype : ''
+  endfunction
 
-    return fname == 'ControlP' ? 'CtrlP' :
-          \ fname =~ 'NERD_tree' ? 'NERDTree' :
-          \ &filetype == 'netrw' ? 'NETRW' :
-          \ &filetype == 'fugitiveblame' ? 'GIT BLAME' :
-          \ &filetype == 'qf' ? 'QUICKFIX' :
-          \ &filetype == 'help' ? 'HELP' :
-          \ winwidth(0) > 60 ? lightline#mode() : ''
+  function! MyFileencoding()
+    return exists('g:lightline.my_encoding') ? g:lightline.my_encoding : ''
+  endfunction
+
+  function! MyFileformat()
+    return exists('g:lightline.my_format') ? g:lightline.my_format : ''
   endfunction
 
   function! CtrlPMark()
-    if expand('%:t') =~ 'ControlP'
+    if expand('%:t') == 'ControlP'
       call lightline#link('iR'[g:lightline.ctrlp_regex])
       return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
             \ , g:lightline.ctrlp_next], 0)
@@ -247,33 +295,6 @@ if count(g:vimified_packages, 'fancy')
 
   function! CtrlPStatusFunc_2(str)
     return lightline#statusline(0)
-  endfunction
-
-  function! MyFiletype()
-    return &filetype == 'nerdtree' ? '' :
-          \ &filetype == 'netrw' ? '' :
-          \ &filetype == 'fugitiveblame' ? '' :
-          \ &filetype == 'qf' ? '' :
-          \ expand('%:t') == 'ControlP' ? '' :
-          \ winwidth(0) > 70 ? strlen(&filetype) ? &filetype : 'no ft' : ''
-  endfunction
-
-  function! MyFileencoding()
-    return &filetype == 'nerdtree' ? '' :
-          \ &filetype == 'netrw' ? '' :
-          \ &filetype == 'fugitiveblame' ? '' :
-          \ &filetype == 'qf' ? '' :
-          \ expand('%:t') == 'ControlP' ? '' :
-          \ winwidth(0) > 80 ? (strlen(&fenc) ? &fenc : &enc) : ''
-  endfunction
-
-  function! MyFileformat()
-    return &filetype == 'nerdtree' ? '' :
-          \ &filetype == 'netrw' ? '' :
-          \ &filetype == 'fugitiveblame' ? '' :
-          \ &filetype == 'qf' ? '' :
-          \ expand('%:t') == 'ControlP' ? '' :
-          \ winwidth(0) > 90 ? &fileformat : ''
   endfunction
 
   if exists('+colorcolumn')
