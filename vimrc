@@ -76,9 +76,9 @@ if count(g:vimified_packages, 'general')
 
   Bundle 'scrooloose/nerdtree'
   let NERDTreeHijackNetrw = 0
-  let g:NERDTreeWinSize = 20
-  let g:NERDTreeChDirMode=2
-  let NERDTreeShowHidden=1
+  let g:NERDTreeWinSize = 25
+  let g:NERDTreeChDirMode = 2
+  let NERDTreeShowHidden = 1
   map \ :NERDTreeToggle<CR>
   map \| :NERDTreeFind<CR>
 
