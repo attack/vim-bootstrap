@@ -445,6 +445,7 @@ set tabstop=2
 set shiftwidth=2   " width of auto-indent
 set softtabstop=2
 set nowrap         " no wrapping
+set textwidth=0
 set number         " line numbers
 set numberwidth=4
 
