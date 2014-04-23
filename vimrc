@@ -300,9 +300,6 @@ if count(g:vimified_packages, 'fancy')
     return lightline#statusline(0)
   endfunction
 
-  Bundle 'myusuf3/numbers.vim'
-  let g:numbers_exclude = ['nerdtree']
-
   " colorcolumn on active windows only
   if exists('+colorcolumn')
     augroup ccolumn
