@@ -335,8 +335,6 @@ if count(g:vimified_packages, 'coding')
   xmap <leader>/ <Plug>Commentary
   nmap <leader>/ <Plug>CommentaryLine
 
-  Bundle 'Julian/vim-textobj-variable-segment'
-
   Bundle 'AndrewRadev/splitjoin.vim'
   let g:splitjoin_split_mapping = ''
   let g:splitjoin_join_mapping = ''
