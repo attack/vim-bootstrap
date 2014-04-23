@@ -232,6 +232,9 @@ if count(g:vimified_packages, 'fancy')
     elseif &filetype == 'help'
       call MyMinStatus('V', 'HELP', 0, expand('%:t'))
 
+    elseif &filetype == 'vundle'
+      call MyMinStatus('V', 'VUNDLE', 0, expand('%:t'))
+
     else
       call MyDefault()
     endif
