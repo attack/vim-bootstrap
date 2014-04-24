@@ -165,7 +165,10 @@ if count(g:vimified_packages, 'fancy')
     endif
 
     let g:lightline.my_mode = a:mode
-    let g:lightline.my_filename = a:filename
+    if ! exists('g:lightline.my_filename')
+      let g:lightline.my_filename = {}
+    endif
+    let g:lightline.my_filename[bufnr('%')] = a:filename
 
     let g:lightline.my_filetype = ''
     let g:lightline.my_encoding = ''
@@ -240,7 +243,20 @@ if count(g:vimified_packages, 'fancy')
     endif
   endfunction
 
+  function! PruneFilenames()
+    if exists('g:lightline.my_filename')
+      let buffersInCurrentTab = tabpagebuflist(tabpagenr())
+      let filenameKeys = keys(g:lightline.my_filename)
+      for iKey in filenameKeys
+        if index(buffersInCurrentTab, iKey * 1) < 0
+          unlet g:lightline.my_filename[iKey]
+        endif
+      endfor
+    endif
+  endfunction
+
   function! MyMode()
+    call PruneFilenames()
     call DetectMode()
     return exists('g:lightline.my_mode') ? g:lightline.my_mode : ''
   endfunction
@@ -254,7 +270,12 @@ if count(g:vimified_packages, 'fancy')
   endfunction
 
   function! MyFilename()
-    return exists('g:lightline.my_filename') ? g:lightline.my_filename : expand('%:t')
+    if exists('g:lightline.my_filename') && has_key(g:lightline.my_filename, bufnr('%'))
+      let fname = g:lightline.my_filename[bufnr('%')]
+    else
+      let fname = expand('%:t')
+    endif
+    return fname
   endfunction
 
   function! MyFugitive()
