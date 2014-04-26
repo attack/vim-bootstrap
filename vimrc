@@ -141,7 +141,7 @@ if count(g:vimified_packages, 'fancy')
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'filename' ],
     \             [ 'ctrlpmark' ] ],
-    \   'right': [ [ 'fugitive' ],
+    \   'right': [ [ 'fugitive', 'ctrlpdir' ],
     \              [ 'lineinfo' ],
     \              [ 'filetype' ] ]
     \ },
@@ -154,6 +154,7 @@ if count(g:vimified_packages, 'fancy')
     \   'filename': 'MyFilename',
     \   'mode': 'MyMode',
     \   'ctrlpmark': 'CtrlPMark',
+    \   'ctrlpdir': 'CtrlPDir',
     \   'filetype': 'MyFiletype'
     \ }
     \ }
@@ -289,6 +290,14 @@ if count(g:vimified_packages, 'fancy')
     if expand('%:t') == 'ControlP'
       call lightline#link('iR'[g:lightline.ctrlp_regex])
       return g:lightline.ctrlp_item
+    else
+      return ''
+    endif
+  endfunction
+
+  function! CtrlPDir()
+    if expand('%:t') == 'ControlP'
+      return getcwd()
     else
       return ''
     endif
