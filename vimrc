@@ -155,11 +155,12 @@ if count(g:vimified_packages, 'fancy')
     \   'mode': 'MyMode',
     \   'ctrlpmark': 'CtrlPMark',
     \   'ctrlpdir': 'CtrlPDir',
+    \   'lineinfo': 'MyLineinfo',
     \   'filetype': 'MyFiletype'
     \ }
     \ }
 
-  function! MyMinStatus(colour_mode, mode, fugitive, filename)
+  function! MyMinStatus(colour_mode, mode, fugitive, filename, lineinfo)
     if a:colour_mode != ''
       call lightline#link(a:colour_mode)
     endif
@@ -177,10 +178,15 @@ if count(g:vimified_packages, 'fancy')
     let g:lightline.my_filename[bufnr('%')] = a:filename
 
     let g:lightline.my_filetype = ''
+    if a:lineinfo == 1
+      let g:lightline.my_lineinfo = printf('%3u:%-2u', line('.'), virtcol('.'))
+    else
+      let g:lightline.my_lineinfo = ''
+    endif
   endfunction
 
   function! MyFullStatus(mode, filename, filetype)
-    call MyMinStatus('', a:mode, 1, a:filename)
+    call MyMinStatus('', a:mode, 1, a:filename, 1)
 
     let g:lightline.my_filetype = a:filetype
   endfunction
@@ -218,25 +224,25 @@ if count(g:vimified_packages, 'fancy')
 
   function! DetectMode()
     if expand('%:t') == 'ControlP'
-      call MyMinStatus('', 'CtrlP', 0, '')
+      call MyMinStatus('', 'CtrlP', 0, '', 0)
 
     elseif expand('%:t') =~ 'NERD_tree'
-      call MyMinStatus('i', 'NERDTree', 0, '')
+      call MyMinStatus('i', 'NERDTree', 0, '', 1)
 
     elseif &filetype == 'netrw'
-      call MyMinStatus('R', 'NETRW', 0, '')
+      call MyMinStatus('R', 'NETRW', 0, '', 0)
 
     elseif &filetype == 'fugitiveblame'
-      call MyMinStatus('V', 'GIT BLAME', 1, '')
+      call MyMinStatus('V', 'GIT BLAME', 1, '', 1)
 
     elseif &filetype == 'qf'
-      call MyMinStatus('R', 'QUICKFIX', 0, len(getqflist()) . ' results')
+      call MyMinStatus('R', 'QUICKFIX', 0, len(getqflist()) . ' results', 1)
 
     elseif &filetype == 'help'
-      call MyMinStatus('V', 'HELP', 0, expand('%:t'))
+      call MyMinStatus('V', 'HELP', 0, expand('%:t'), 1)
 
     elseif &filetype == 'vundle'
-      call MyMinStatus('V', 'VUNDLE', 0, expand('%:t'))
+      call MyMinStatus('V', 'VUNDLE', 0, expand('%:t'), 1)
 
     else
       call MyDefault()
@@ -284,6 +290,10 @@ if count(g:vimified_packages, 'fancy')
 
   function! MyFiletype()
     return exists('g:lightline.my_filetype') ? g:lightline.my_filetype : ''
+  endfunction
+
+  function! MyLineinfo()
+    return exists('g:lightline.my_lineinfo') ? g:lightline.my_lineinfo : ''
   endfunction
 
   function! CtrlPMark()
