@@ -72,6 +72,7 @@ if count(g:vimified_packages, 'general')
         \ | let b:surround_95 = "_(\r)"
 
   Bundle 'kana/vim-textobj-user'
+  Bundle 'sjl/gundo.vim'
   Bundle 'Peeja/vim-cdo'
 
   Bundle 'scrooloose/nerdtree'
