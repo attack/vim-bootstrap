@@ -217,7 +217,7 @@ if count(g:vimified_packages, 'fancy')
 
   function! DetectMode()
     if expand('%:t') == 'ControlP'
-      call MyMinStatus('', 'CtrlP', 0, g:lightline.ctrlp_item)
+      call MyMinStatus('', 'CtrlP', 0, '')
 
     elseif expand('%:t') =~ 'NERD_tree'
       call MyMinStatus('i', 'NERDTree', 0, '')
@@ -288,8 +288,7 @@ if count(g:vimified_packages, 'fancy')
   function! CtrlPMark()
     if expand('%:t') == 'ControlP'
       call lightline#link('iR'[g:lightline.ctrlp_regex])
-      return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-            \ , g:lightline.ctrlp_next], 0)
+      return g:lightline.ctrlp_item
     else
       return ''
     endif
@@ -302,9 +301,7 @@ if count(g:vimified_packages, 'fancy')
 
   function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
     let g:lightline.ctrlp_regex = a:regex
-    let g:lightline.ctrlp_prev = a:prev
     let g:lightline.ctrlp_item = a:item
-    let g:lightline.ctrlp_next = a:next
     return lightline#statusline(0)
   endfunction
 
