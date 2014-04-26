@@ -140,16 +140,17 @@ if count(g:vimified_packages, 'fancy')
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'fugitive', 'filename' ],
-    \             [ 'ctrlpmark' ] ]
+    \             [ 'ctrlpmark' ] ],
+    \   'right': [ [ 'lineinfo' ],
+    \              [ 'percent' ],
+    \              [ 'filetype' ] ]
     \ },
     \ 'component_function': {
     \   'fugitive': 'MyFugitive',
     \   'filename': 'MyFilename',
     \   'mode': 'MyMode',
     \   'ctrlpmark': 'CtrlPMark',
-    \   'filetype': 'MyFiletype',
-    \   'fileencoding': 'MyFileencoding',
-    \   'fileformat': 'MyFileformat'
+    \   'filetype': 'MyFiletype'
     \ }
     \ }
 
@@ -171,16 +172,12 @@ if count(g:vimified_packages, 'fancy')
     let g:lightline.my_filename[bufnr('%')] = a:filename
 
     let g:lightline.my_filetype = ''
-    let g:lightline.my_encoding = ''
-    let g:lightline.my_format = ''
   endfunction
 
-  function! MyFullStatus(mode, filename, filetype, encoding, format)
+  function! MyFullStatus(mode, filename, filetype)
     call MyMinStatus('', a:mode, 1, a:filename)
 
     let g:lightline.my_filetype = a:filetype
-    let g:lightline.my_encoding = a:encoding
-    let g:lightline.my_format = a:format
   endfunction
 
   function! MyDefaultFilename()
@@ -210,10 +207,8 @@ if count(g:vimified_packages, 'fancy')
     let my_filename = MyDefaultFilename()
     let my_mode = (winwidth(0) > 60 ? lightline#mode() : '')
     let my_filetype = (winwidth(0) > 70 ? strlen(&filetype) ? &filetype : 'no ft' : '')
-    let my_encoding = (winwidth(0) > 80 ? (strlen(&fenc) ? &fenc : &enc) : '')
-    let my_format = (winwidth(0) > 90 ? &fileformat : '')
 
-    call MyFullStatus(my_mode, my_filename, my_filetype, my_encoding, my_format)
+    call MyFullStatus(my_mode, my_filename, my_filetype)
   endfunction
 
   function! DetectMode()
@@ -284,14 +279,6 @@ if count(g:vimified_packages, 'fancy')
 
   function! MyFiletype()
     return exists('g:lightline.my_filetype') ? g:lightline.my_filetype : ''
-  endfunction
-
-  function! MyFileencoding()
-    return exists('g:lightline.my_encoding') ? g:lightline.my_encoding : ''
-  endfunction
-
-  function! MyFileformat()
-    return exists('g:lightline.my_format') ? g:lightline.my_format : ''
   endfunction
 
   function! CtrlPMark()
