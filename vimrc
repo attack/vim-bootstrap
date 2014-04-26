@@ -139,11 +139,15 @@ if count(g:vimified_packages, 'fancy')
   let g:lightline = {
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'filename' ],
+    \             [ 'filename' ],
     \             [ 'ctrlpmark' ] ],
-    \   'right': [ [ 'lineinfo' ],
-    \              [ 'percent' ],
+    \   'right': [ [ 'fugitive' ],
+    \              [ 'lineinfo' ],
     \              [ 'filetype' ] ]
+    \ },
+    \ 'inactive': {
+    \   'left': [ [ 'filename' ] ],
+    \   'right': [ ]
     \ },
     \ 'component_function': {
     \   'fugitive': 'MyFugitive',
