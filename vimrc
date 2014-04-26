@@ -223,7 +223,7 @@ if count(g:vimified_packages, 'fancy')
       call MyMinStatus('i', 'NERDTree', 0, '')
 
     elseif &filetype == 'netrw'
-      call MyMinStatus('R', 'NETRW', 1, '')
+      call MyMinStatus('R', 'NETRW', 0, '')
 
     elseif &filetype == 'fugitiveblame'
       call MyMinStatus('V', 'GIT BLAME', 1, '')
