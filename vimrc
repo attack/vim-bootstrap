@@ -19,7 +19,7 @@ endif
 " which package you would like to include
 "
 if ! exists('g:vimified_packages')
-  let g:vimified_packages = ['general', 'fancy', 'coding', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'colour']
+  let g:vimified_packages = ['general', 'fancy', 'coding', 'indent', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'colour']
 endif
 
 " Vundle
@@ -377,6 +377,17 @@ if count(g:vimified_packages, 'coding')
     call setpos('.', save_cursor)
   endfunction
   autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml call StripTrailingWhitespace()
+endif
+
+" Package: Indent
+"
+"""""""""""""""""""""""""""""""""""""""
+if count(g:vimified_packages, 'indent')
+  Bundle 'michaeljsmith/vim-indent-object'
+  let g:indentobject_meaningful_indentation = ['haml', 'sass', 'yaml', 'markdown']
+
+  Bundle 'Yggdroot/indentLine'
+  let g:indentLine_fileType = ['yaml']
 endif
 
 " Package: Ruby
