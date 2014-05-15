@@ -139,7 +139,7 @@ if count(g:vimified_packages, 'fancy')
   :set noshowmode " mode is displayed by lightline
   let g:lightline = {
     \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
+    \   'left': [ [ 'mode', 'paste', 'syntastic' ],
     \             [ 'filename' ],
     \             [ 'ctrlpmark' ] ],
     \   'right': [ [ 'fugitive', 'ctrlpdir' ],
@@ -158,6 +158,12 @@ if count(g:vimified_packages, 'fancy')
     \   'ctrlpdir': 'CtrlPDir',
     \   'lineinfo': 'MyLineinfo',
     \   'filetype': 'MyFiletype'
+    \ },
+    \ 'component_expand': {
+    \   'syntastic': 'SyntasticStatuslineFlag'
+    \ },
+    \ 'component_type': {
+    \   'syntastic': 'warning'
     \ }
     \ }
 
@@ -235,6 +241,9 @@ if count(g:vimified_packages, 'fancy')
 
     elseif &filetype == 'fugitiveblame'
       call MyMinStatus('V', 'GIT BLAME', 1, '', 1)
+
+    elseif &filetype == 'qf' && len(getloclist(0)) > 0
+      call MyMinStatus('R', 'LOCATION', 0, len(getloclist(0)) . ' locations', 1)
 
     elseif &filetype == 'qf'
       call MyMinStatus('R', 'QUICKFIX', 0, len(getqflist()) . ' results', 1)
@@ -377,6 +386,15 @@ if count(g:vimified_packages, 'coding')
     call setpos('.', save_cursor)
   endfunction
   autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml call StripTrailingWhitespace()
+
+  Bundle 'scrooloose/syntastic'
+  let g:syntastic_enable_signs=1
+  let g:syntastic_auto_loc_list=2
+  let g:syntastic_enable_highlighting=0
+  let g:syntastic_enable_balloons=0
+  let g:syntastic_check_on_wq=0
+  let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+  let g:syntastic_stl_format = '%E{%e errors}%B{, }%W{%w warnings}'
 endif
 
 " Package: Indent
