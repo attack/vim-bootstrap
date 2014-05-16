@@ -139,8 +139,8 @@ if count(g:vimified_packages, 'fancy')
   :set noshowmode " mode is displayed by lightline
   let g:lightline = {
     \ 'active': {
-    \   'left': [ [ 'mode', 'paste', 'syntastic' ],
-    \             [ 'filename' ],
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'filename', 'syntastic' ],
     \             [ 'ctrlpmark' ] ],
     \   'right': [ [ 'fugitive', 'ctrlpdir' ],
     \              [ 'lineinfo' ],
@@ -163,7 +163,7 @@ if count(g:vimified_packages, 'fancy')
     \   'syntastic': 'SyntasticStatuslineFlag'
     \ },
     \ 'component_type': {
-    \   'syntastic': 'warning'
+    \   'syntastic': 'error'
     \ }
     \ }
 
@@ -393,8 +393,18 @@ if count(g:vimified_packages, 'coding')
   let g:syntastic_enable_highlighting=0
   let g:syntastic_enable_balloons=0
   let g:syntastic_check_on_wq=0
-  let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+  let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [] }
   let g:syntastic_stl_format = '%E{%e errors}%B{, }%W{%w warnings}'
+
+  function! s:syntastic()
+    SyntasticCheck
+    call lightline#update()
+  endfunction
+
+  augroup AutoSyntastic
+    autocmd!
+    autocmd BufWritePost *.rb call s:syntastic()
+  augroup END
 endif
 
 " Package: Indent
