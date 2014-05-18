@@ -72,6 +72,7 @@ if count(g:vimified_packages, 'general')
         \ | let b:surround_95 = "_(\r)"
 
   Bundle 'kana/vim-textobj-user'
+  Bundle 'kana/vim-textobj-line'
   Bundle 'sjl/gundo.vim'
   Bundle 'Peeja/vim-cdo'
 
@@ -430,6 +431,12 @@ if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
   autocmd FileType ruby set iskeyword=@,48-57,_,?,!,192-255
 
   set wildignore+=*.gem
+
+  Bundle 'terryma/vim-expand-region'
+  call expand_region#custom_text_objects('ruby', {
+    \ 'ir'  :1,
+    \ 'ar'  :1
+    \ })
 endif
 
 " Package: Rails
