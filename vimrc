@@ -437,6 +437,9 @@ if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
     \ 'ir'  :1,
     \ 'ar'  :1
     \ })
+  call expand_region#custom_text_objects('html', {
+    \ 'it' :1
+    \ })
 endif
 
 " Package: Rails
