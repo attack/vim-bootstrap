@@ -6,12 +6,12 @@ let mapleader = ','
 
 let s:shared_config = expand($HOME . '/.vimrc.shared')
 if filereadable(s:shared_config)
-  exec ':so ' . s:shared_config
+  exec ':source ' . s:shared_config
 endif
 
 let s:local_config = expand($HOME . '/.vimrc.local')
 if filereadable(s:local_config)
-  exec ':so ' . s:local_config
+  exec ':source ' . s:local_config
 endif
 
 " PACKAGE LIST
@@ -32,12 +32,12 @@ Plugin 'tpope/vim-sensible'
 
 let s:shared_bundles = expand($HOME . '/.vimrc.bundles.shared')
 if filereadable(s:shared_bundles)
-  exec ':so ' . s:shared_bundles
+  silent! exec ':source ' . s:shared_bundles
 endif
 
 let s:local_bundles = expand($HOME . '/.vimrc.bundles.local')
 if filereadable(s:local_bundles)
-  exec ':so ' . s:local_bundles
+  silent! exec ':source ' . s:local_bundles
 endif
 
 " Package: General
