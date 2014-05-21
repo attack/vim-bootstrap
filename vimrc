@@ -25,10 +25,10 @@ endif
 " Vundle
 "
 """""""""""""""""""""""""""""""""""""""
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-sensible'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-sensible'
 
 let s:shared_bundles = expand($HOME . '/.vimrc.bundles.shared')
 if filereadable(s:shared_bundles)
@@ -44,12 +44,12 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'general')
-  Bundle 'regreplop.vim'
-  Bundle 'tpope/vim-repeat'
-  Bundle 'tpope/vim-unimpaired'
-  Bundle 'tpope/vim-vinegar'
+  Plugin 'regreplop.vim'
+  Plugin 'tpope/vim-repeat'
+  Plugin 'tpope/vim-unimpaired'
+  Plugin 'tpope/vim-vinegar'
 
-  Bundle 'epmatsw/ag.vim'
+  Plugin 'epmatsw/ag.vim'
   function! AgGrep()
     let command = 'ag -i '.expand('<cword>')
     cexpr system(command)
@@ -66,17 +66,17 @@ if count(g:vimified_packages, 'general')
   map <leader>a :call AgGrep()<CR>
   vmap <leader>a :call AgVisual()<CR>
 
-  Bundle 'tpope/vim-surround'
+  Plugin 'tpope/vim-surround'
   " Add $ as a jQuery surround, _ for Underscore.js
   autocmd FileType javascript let b:surround_36 = "$(\r)"
         \ | let b:surround_95 = "_(\r)"
 
-  Bundle 'kana/vim-textobj-user'
-  Bundle 'kana/vim-textobj-line'
-  Bundle 'sjl/gundo.vim'
-  Bundle 'Peeja/vim-cdo'
+  Plugin 'kana/vim-textobj-user'
+  Plugin 'kana/vim-textobj-line'
+  Plugin 'sjl/gundo.vim'
+  Plugin 'Peeja/vim-cdo'
 
-  Bundle 'scrooloose/nerdtree'
+  Plugin 'scrooloose/nerdtree'
   let NERDTreeHijackNetrw = 0
   let g:NERDTreeWinSize = 25
   let g:NERDTreeChDirMode = 2
@@ -84,7 +84,7 @@ if count(g:vimified_packages, 'general')
   map \ :NERDTreeToggle<CR>
   map \| :NERDTreeFind<CR>
 
-  Bundle 'kien/ctrlp.vim'
+  Plugin 'kien/ctrlp.vim'
   let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
   nnoremap <silent> <leader>f :CtrlP<CR>
   noremap <leader>b :CtrlPBuffer<CR>
@@ -135,7 +135,7 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'fancy')
-  Bundle 'itchyny/lightline.vim'
+  Plugin 'itchyny/lightline.vim'
 
   :set noshowmode " mode is displayed by lightline
   let g:lightline = {
@@ -365,16 +365,16 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'coding')
-  Bundle 'tpope/vim-abolish'
+  Plugin 'tpope/vim-abolish'
 
-  Bundle 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-fugitive'
   map <leader>g :Gblame<CR>
 
-  Bundle 'tpope/vim-commentary'
+  Plugin 'tpope/vim-commentary'
   xmap <leader>/ <Plug>Commentary
   nmap <leader>/ <Plug>CommentaryLine
 
-  Bundle 'AndrewRadev/splitjoin.vim'
+  Plugin 'AndrewRadev/splitjoin.vim'
   let g:splitjoin_split_mapping = ''
   let g:splitjoin_join_mapping = ''
   nmap Ss :SplitjoinSplit<cr>
@@ -388,7 +388,7 @@ if count(g:vimified_packages, 'coding')
   endfunction
   autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml call StripTrailingWhitespace()
 
-  Bundle 'scrooloose/syntastic'
+  Plugin 'scrooloose/syntastic'
   let g:syntastic_enable_signs=1
   let g:syntastic_auto_loc_list=2
   let g:syntastic_enable_highlighting=0
@@ -412,10 +412,10 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'indent')
-  Bundle 'michaeljsmith/vim-indent-object'
+  Plugin 'michaeljsmith/vim-indent-object'
   let g:indentobject_meaningful_indentation = ['haml', 'sass', 'yaml', 'markdown']
 
-  Bundle 'Yggdroot/indentLine'
+  Plugin 'Yggdroot/indentLine'
   let g:indentLine_fileType = ['yaml']
 endif
 
@@ -423,35 +423,28 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
-  Bundle 'vim-ruby/vim-ruby'
-  Bundle 'tpope/vim-bundler'
-  Bundle 'nelstrom/vim-textobj-rubyblock'
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'tpope/vim-bundler'
+  Plugin 'nelstrom/vim-textobj-rubyblock'
 
   " set question mark to be part of a VIM word. in Ruby it is!
   autocmd FileType ruby set iskeyword=@,48-57,_,?,!,192-255
 
   set wildignore+=*.gem
 
-  Bundle 'terryma/vim-expand-region'
-  call expand_region#custom_text_objects('ruby', {
-    \ 'ir'  :1,
-    \ 'ar'  :1
-    \ })
-  call expand_region#custom_text_objects('html', {
-    \ 'it' :1
-    \ })
+  Plugin 'terryma/vim-expand-region'
 endif
 
 " Package: Rails
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'rails')
-  Bundle 'tpope/vim-rails'
+  Plugin 'tpope/vim-rails'
   let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers"'
 
-  Bundle 'tpope/vim-haml'
+  Plugin 'tpope/vim-haml'
 
-  Bundle 'plasticboy/vim-markdown'
+  Plugin 'plasticboy/vim-markdown'
   let g:vim_markdown_folding_disabled=1
 
   autocmd FileType scss set iskeyword=@,48-57,_,-,?,!,192-255
@@ -465,8 +458,8 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'rspec')
-  Bundle 'tpope/vim-dispatch'
-  Bundle 'thoughtbot/vim-rspec'
+  Plugin 'tpope/vim-dispatch'
+  Plugin 'thoughtbot/vim-rspec'
 
   let g:rspec_command = "Dispatch rspec {spec}"
   map <leader>t :call RunCurrentSpecFile()<CR>
@@ -515,9 +508,9 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'javascript')
-  Bundle 'kchmck/vim-coffee-script'
-  Bundle 'mustache/vim-mustache-handlebars'
-  Bundle 'pangloss/vim-javascript'
+  Plugin 'kchmck/vim-coffee-script'
+  Plugin 'mustache/vim-mustache-handlebars'
+  Plugin 'pangloss/vim-javascript'
 
   au BufNewFile,BufRead *.json set filetype=javascript
 endif
@@ -526,7 +519,7 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'ctags')
-  Bundle 'folke/AutoTag'
+  Plugin 'folke/AutoTag'
 
   let g:autotagExcludeSuffixes="tml.xml.text.txt.vim"
   map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc -R *<CR><CR>
@@ -537,14 +530,28 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'colour') || count(g:vimified_packages, 'color')
-  Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+  Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
-  colorscheme Tomorrow-Night-Eighties
   :hi TabLineFill term=bold cterm=bold ctermbg=237
 endif
 
+call vundle#end()
 filetype plugin indent on
 syntax on
+
+if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
+  call expand_region#custom_text_objects('ruby', {
+    \ 'ir'  :1,
+    \ 'ar'  :1
+    \ })
+  call expand_region#custom_text_objects('html', {
+    \ 'it' :1
+    \ })
+endif
+
+if count(g:vimified_packages, 'colour') || count(g:vimified_packages, 'color')
+  colorscheme Tomorrow-Night-Eighties
+endif
 
 "
 " Options

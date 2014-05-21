@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ ! -e $HOME/.vim/bundle/vundle ]; then
+if [ ! -e $HOME/.vim/bundle/Vundle.vim ]; then
   mkdir -p $HOME/.vim/bundle/
-  git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
+  git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
 fi
-vim -u $HOME/.vimrc +BundleInstall +qa
-vim -u $HOME/.vimrc +BundleClean! +qa
+vim -u $HOME/.vimrc +PluginInstall +qa
+vim -u $HOME/.vimrc +PluginClean! +qa
