@@ -511,6 +511,8 @@ if count(g:vimified_packages, 'javascript')
   Plugin 'kchmck/vim-coffee-script'
   Plugin 'mustache/vim-mustache-handlebars'
   Plugin 'pangloss/vim-javascript'
+  Plugin 'kana/vim-textobj-function'
+  Plugin 'thinca/vim-textobj-function-javascript'
 
   au BufNewFile,BufRead *.json set filetype=javascript
 endif
