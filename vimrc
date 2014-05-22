@@ -406,6 +406,8 @@ if count(g:vimified_packages, 'coding')
     autocmd!
     autocmd BufWritePost *.rb call s:syntastic()
   augroup END
+
+  Plugin 'terryma/vim-expand-region'
 endif
 
 " Package: Indent
@@ -431,8 +433,6 @@ if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
   autocmd FileType ruby set iskeyword=@,48-57,_,?,!,192-255
 
   set wildignore+=*.gem
-
-  Plugin 'terryma/vim-expand-region'
 endif
 
 " Package: Rails
@@ -541,14 +541,23 @@ call vundle#end()
 filetype plugin indent on
 syntax on
 
-if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
-  call expand_region#custom_text_objects('ruby', {
-    \ 'ir'  :1,
-    \ 'ar'  :1
-    \ })
-  call expand_region#custom_text_objects('html', {
-    \ 'it' :1
-    \ })
+if exists('g:expand_region_text_objects')
+  if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
+    call expand_region#custom_text_objects('ruby', {
+      \ 'ir'  :1,
+      \ 'ar'  :1
+      \ })
+    call expand_region#custom_text_objects('html', {
+      \ 'it' :1
+      \ })
+  endif
+
+  if count(g:vimified_packages, 'javascript')
+    call expand_region#custom_text_objects('javascript', {
+      \ 'if' :1,
+      \ 'af' :1
+      \ })
+  endif
 endif
 
 if count(g:vimified_packages, 'colour') || count(g:vimified_packages, 'color')
