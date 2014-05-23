@@ -386,7 +386,7 @@ if count(g:vimified_packages, 'coding')
     %s/\s\+$//e
     call setpos('.', save_cursor)
   endfunction
-  autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml call StripTrailingWhitespace()
+  autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml,*.coffee call StripTrailingWhitespace()
 
   Plugin 'scrooloose/syntastic'
   let g:syntastic_enable_signs=1
@@ -418,7 +418,7 @@ if count(g:vimified_packages, 'indent')
   let g:indentobject_meaningful_indentation = ['haml', 'sass', 'yaml', 'markdown']
 
   Plugin 'Yggdroot/indentLine'
-  let g:indentLine_fileType = ['yaml']
+  let g:indentLine_fileType = ['yaml', 'coffee']
 endif
 
 " Package: Ruby
@@ -556,6 +556,9 @@ if exists('g:expand_region_text_objects')
     call expand_region#custom_text_objects('javascript', {
       \ 'if' :1,
       \ 'af' :1
+      \ })
+    call expand_region#custom_text_objects('coffee', {
+      \ 'ii' :1
       \ })
   endif
 endif
