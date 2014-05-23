@@ -429,6 +429,13 @@ if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
   Plugin 'tpope/vim-bundler'
   Plugin 'nelstrom/vim-textobj-rubyblock'
 
+  let g:textobj_rubysymbol_no_default_key_mappings = 1
+  xmap as <Plug>(textobj-rubysymbol-a)
+  omap as <Plug>(textobj-rubysymbol-a)
+  xmap is <Plug>(textobj-rubysymbol-i)
+  omap is <Plug>(textobj-rubysymbol-i)
+  Plugin 'bootleq/vim-textobj-rubysymbol'
+
   " set question mark to be part of a VIM word. in Ruby it is!
   autocmd FileType ruby set iskeyword=@,48-57,_,?,!,192-255
 
@@ -554,6 +561,7 @@ if count(g:vimified_packages, 'coding')
 
   if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
     call expand_region#custom_text_objects('ruby', {
+      \ 'as' :1,
       \ 'ir' :1,
       \ 'ar' :1
       \ })
