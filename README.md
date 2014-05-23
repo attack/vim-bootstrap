@@ -160,3 +160,9 @@ this will not capture results
 <ctrl>\ = find next tag match
 ,rt = regenerate tags file
 ```
+
+### text object expansion
+```
++ (multiple times) = expand text object selection
+_ (multiple times) = collapse text object selection
+```
