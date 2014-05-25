@@ -441,6 +441,11 @@ if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
   autocmd FileType ruby set iskeyword=@,48-57,_,?,!,192-255
 
   set wildignore+=*.gem
+
+  " ysiw#   Wrap the token under the cursor in #{}
+  " v...s#  Wrap the selection in #{}
+  let g:surround_113 = "#{\r}"   " v
+  let g:surround_35  = "#{\r}"   " #
 endif
 
 " Package: Rails
@@ -460,6 +465,10 @@ if count(g:vimified_packages, 'rails')
   set wildignore+=*/public/assets/**
   set wildignore+=*/vendor/rails/**
   set wildignore+=*/vendor/cache/**
+
+  " wrap selection in erb tags
+  let g:surround_45 = "<% \r %>"    " -
+  let g:surround_61 = "<%= \r %>"   " =
 endif
 
 " Package: Rspec
