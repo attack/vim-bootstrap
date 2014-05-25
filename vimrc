@@ -407,6 +407,7 @@ if count(g:vimified_packages, 'coding')
     autocmd BufWritePost *.rb call s:syntastic()
   augroup END
 
+  Plugin 'argtextobj.vim'
   Plugin 'terryma/vim-expand-region'
 endif
 
@@ -566,6 +567,8 @@ if count(g:vimified_packages, 'coding')
       \ 'i"'  :0,
       \ 'i''' :0,
       \ 'i]'  :1,
+      \ 'ia'  :0,
+      \ 'aa'  :0,
       \ 'ib'  :1,
       \ 'iB'  :1,
       \ 'il'  :0
