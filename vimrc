@@ -446,6 +446,10 @@ if count(g:vimified_packages, 'ruby') || count(g:vimified_packages, 'rails')
   " v...s#  Wrap the selection in #{}
   let g:surround_113 = "#{\r}"   " v
   let g:surround_35  = "#{\r}"   " #
+
+  " ,# Surround a word with #{ruby interpolation}
+  map ,# ysiw#
+  vmap ,# c#{<C-R>"}<ESC>
 endif
 
 " Package: Rails
