@@ -11,9 +11,18 @@ git clone git@github.com:attack/vim-bootstrap.git
 
 ### using brew + rcm (preferred)
 
-Install [rcm](https://github.com/thoughtbot/rcm)
+Install [brewdler](https://github.com/Homebrew/homebrew-brewdler)
+
 ```sh
-brew bundle vim-bootstrap/Brewfile
+brew tap Homebrew/brewdler
+```
+
+Install [rcm](https://github.com/thoughtbot/rcm)
+
+From within the `vim-bootstrap` directory
+
+```sh
+brew brewdle
 ```
 
 Install dotfiles:
