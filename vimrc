@@ -680,6 +680,13 @@ if has('persistent_undo')
 endif
 
 "
+" Custom File Associations
+"
+
+" associate *.sktl with html filetype
+au BufRead,BufNewFile *.sktl setfiletype html
+
+"
 " Keybindings
 "
 """""""""""""""""""""""""""""""""""""""
