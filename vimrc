@@ -49,7 +49,7 @@ if count(g:vimified_packages, 'general')
   Plugin 'tpope/vim-unimpaired'
   Plugin 'tpope/vim-vinegar'
 
-  Plugin 'epmatsw/ag.vim'
+  Plugin 'rking/ag.vim'
   function! AgGrep()
     let command = 'ag -i '.expand('<cword>')
     cexpr system(command)
@@ -458,7 +458,8 @@ endif
 if count(g:vimified_packages, 'rails')
   Plugin 'tpope/vim-rails'
   let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers"'
-
+  
+  Plugin 'othree/html5.vim'
   Plugin 'tpope/vim-haml'
 
   Plugin 'plasticboy/vim-markdown'
