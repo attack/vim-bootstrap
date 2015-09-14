@@ -84,7 +84,7 @@ if count(g:vimified_packages, 'general')
   map \ :NERDTreeToggle<CR>
   map \| :NERDTreeFind<CR>
 
-  Plugin 'kien/ctrlp.vim'
+  Plugin 'ctrlpvim/ctrlp.vim'
   let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
   nnoremap <silent> <leader>f :CtrlP<CR>
   noremap <leader>b :CtrlPBuffer<CR>
