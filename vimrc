@@ -86,15 +86,20 @@ if count(g:vimified_packages, 'general')
 
   Plugin 'ctrlpvim/ctrlp.vim'
   let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
+  let g:ctrlp_clear_cache_on_exit = 0
+  let g:ctrlp_max_files = 0
+
   nnoremap <silent> <leader>f :CtrlP<CR>
   noremap <leader>b :CtrlPBuffer<CR>
+
+  Plugin 'FelikZ/ctrlp-py-matcher'
+  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
   if executable('ag')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
 
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    let g:ctrlp_use_caching = 0
+    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ".git" --ignore ".DS_Store" --hidden -g ""'
   else
     nnoremap <silent> <leader>F :ClearCtrlPCache<CR>\|:CtrlP<CR>
   endif
