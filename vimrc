@@ -488,7 +488,7 @@ if count(g:vimified_packages, 'rspec')
   Plugin 'tpope/vim-dispatch'
   Plugin 'thoughtbot/vim-rspec'
 
-  let g:rspec_command = "Dispatch rspec {spec}"
+  let g:rspec_command = "Dispatch bundle exec rspec {spec}"
   map <leader>t :call RunCurrentSpecFile()<CR>
   map <leader>s :call RunNearestSpec()<CR>
   map <leader>l :call RunLastSpec()<CR>
