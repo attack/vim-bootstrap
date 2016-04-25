@@ -391,7 +391,7 @@ if count(g:vimified_packages, 'coding')
     %s/\s\+$//e
     call setpos('.', save_cursor)
   endfunction
-  autocmd BufWritePre *.rb,*.yml,*.js,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml,*.coffee call StripTrailingWhitespace()
+  autocmd BufWritePre *.rb,*.yml,*.js,*jsx,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml,*.coffee call StripTrailingWhitespace()
 
   Plugin 'scrooloose/syntastic'
   let g:syntastic_enable_signs=1
