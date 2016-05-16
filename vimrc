@@ -702,6 +702,10 @@ cabbrev Tabe tabe
 :noremap <leader>v :vsp<CR>
 :noremap <leader>h :split<CR>
 
+" toggle fullscreen
+:noremap tt :tab split<CR>
+:noremap ty :tabc <CR>
+
 " opens an edit command with the path of the currently edited file filled in
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 

@@ -94,6 +94,8 @@ Heavy influence from [vimified](https://github.com/zaiste/vimified)
 ]<space> = addline below
 <tab> = autocomplete (except when prefixed with whitespace)
 <tab> = <tab> (only when prefixed with whitespace)
+tt = toggle fullscreen mode on
+ty = toggle fullscreen mode off
 ```
 
 ```
