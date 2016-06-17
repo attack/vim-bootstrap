@@ -4,16 +4,6 @@ filetype off
 
 let mapleader = ','
 
-let s:shared_config = expand($HOME . '/.vimrc.shared')
-if filereadable(s:shared_config)
-  exec ':source ' . s:shared_config
-endif
-
-let s:local_config = expand($HOME . '/.vimrc.local')
-if filereadable(s:local_config)
-  exec ':source ' . s:local_config
-endif
-
 " PACKAGE LIST
 " Use this variable inside your local configuration to declare
 " which package you would like to include
@@ -739,4 +729,14 @@ if has('gui_macvim')
   " Fullscreen takes up entire screen
   set fuoptions=maxhorz,maxvert
   map <D-CR> :set invfu<cr>
+endif
+
+let s:shared_config = expand($HOME . '/.vimrc.shared')
+if filereadable(s:shared_config)
+  exec ':source ' . s:shared_config
+endif
+
+let s:local_config = expand($HOME . '/.vimrc.local')
+if filereadable(s:local_config)
+  exec ':source ' . s:local_config
 endif
