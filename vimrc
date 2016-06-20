@@ -75,6 +75,7 @@ if count(g:vimified_packages, 'general')
   Plugin 'kana/vim-textobj-line'
   Plugin 'sjl/gundo.vim'
   Plugin 'Peeja/vim-cdo'
+  Plugin 'terryma/vim-multiple-cursors'
 
   Plugin 'scrooloose/nerdtree'
   let NERDTreeHijackNetrw = 0
