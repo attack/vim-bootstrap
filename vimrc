@@ -740,3 +740,13 @@ if has('gui_macvim')
   set fuoptions=maxhorz,maxvert
   map <D-CR> :set invfu<cr>
 endif
+
+let s:shared_config = expand($HOME . '/.vimrc.shared.after')
+if filereadable(s:shared_config)
+  exec ':source ' . s:shared_config
+endif
+
+let s:local_config = expand($HOME . '/.vimrc.local.after')
+if filereadable(s:local_config)
+  exec ':source ' . s:local_config
+endif
