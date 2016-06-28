@@ -724,6 +724,15 @@ map <M-D-Up>    :cp<CR>
 map <leader>qo  :copen<CR>
 map <leader>qc  :cclose<CR>
 
+" insert SecureRandom.uuid at current cursor
+function! RandomUuid()
+  let command = "uuidgen | tr '[:upper:]' '[:lower:]'"
+  let result = substitute(system(command), '[\]\|[[:cntrl:]]', '', 'g')
+  exec 'norm i' '"' . result . '"'
+endfunction
+
+nmap Sz :call RandomUuid()<CR>
+
 if has('gui_macvim')
   " Fullscreen takes up entire screen
   set fuoptions=maxhorz,maxvert
