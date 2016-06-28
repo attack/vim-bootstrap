@@ -19,7 +19,7 @@ endif
 " which package you would like to include
 "
 if ! exists('g:vimified_packages')
-  let g:vimified_packages = ['general', 'fancy', 'coding', 'indent', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'snippets', 'colour']
+  let g:vimified_packages = ['general', 'fancy', 'coding', 'indent', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'colour']
 endif
 
 " Vundle
@@ -553,18 +553,6 @@ if count(g:vimified_packages, 'ctags')
   let g:autotagExcludeSuffixes="tml.xml.text.txt.vim"
   map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc -R *<CR><CR>
   map <C-\> :tnext<CR>
-endif
-
-" Package: Snippets
-"
-"""""""""""""""""""""""""""""""""""""""
-if count(g:vimified_packages, 'snippets')
-  Plugin 'SirVer/ultisnips'
-  Plugin 'honza/vim-snippets'
-
-  let g:UltiSnipsExpandTrigger='<c-s>'
-  let g:UltiSnipsJumpForwardTrigger='<c-s>'
-  let g:UltiSnipsJumpBackwardTrigger='<c-a>'
 endif
 
 " Package: Colour
