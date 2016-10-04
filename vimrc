@@ -380,12 +380,6 @@ if count(g:vimified_packages, 'coding')
   xmap <leader>/ <Plug>Commentary
   nmap <leader>/ <Plug>CommentaryLine
 
-  Plugin 'AndrewRadev/splitjoin.vim'
-  let g:splitjoin_split_mapping = ''
-  let g:splitjoin_join_mapping = ''
-  nmap Ss :SplitjoinSplit<cr>
-  nmap Sj :SplitjoinJoin<cr>
-
   " strip trailing whitespace on save
   function! StripTrailingWhitespace()
     let save_cursor = getpos('.')

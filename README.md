@@ -140,12 +140,6 @@ ty = toggle fullscreen mode off
 <ctrl>k = paste over, keep original buffer
 ```
 
-### Splitjoin
-```
-Ss = split a one liner into multiple lines
-Sj = join multiple lines into a one liner
-```
-
 ### Vim Rspec + dispatch
 using vim-dispatch `Dispatch`:
 this will capture results and display in quickfix
