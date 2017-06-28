@@ -513,16 +513,6 @@ if count(g:vimified_packages, 'rspec')
   map <leader>dt :call StartCurrentSpecFile()<CR>
   map <leader>ds :call StartNearestSpec()<CR>
   map <leader>dl :call StartLastSpec()<CR>
-
-  " Promote to let (credit: garybernhardt)
-  function! PromoteToLet()
-    :normal! dd
-    :normal! P
-    :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
-    :normal ==
-  endfunction
-  :command! PromoteToLet :call PromoteToLet()
-  map <leader>p :PromoteToLet<cr>
 endif
 
 " Package: Javascript

@@ -66,11 +66,6 @@ Heavy influence from [vimified](https://github.com/zaiste/vimified)
 
 # Vim Command CheatSheet
 
-## Rails
-```
-,p = promote assignment to let
-```
-
 ## Discovery
 ```
 :Ag <search_term> = project pattern search (use Ag, install via brew)
