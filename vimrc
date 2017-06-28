@@ -386,7 +386,7 @@ if count(g:vimified_packages, 'coding')
     %s/\s\+$//e
     call setpos('.', save_cursor)
   endfunction
-  autocmd BufWritePre *.rb,*.yml,*.js,*jsx,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.haml,*.coffee call StripTrailingWhitespace()
+  autocmd BufWritePre *.rb,*.yml,*.js,*jsx,*.css,*.less,*.sass,*.scss,*.html,*.xml,*.erb,*.coffee call StripTrailingWhitespace()
 
   Plugin 'scrooloose/syntastic'
   let g:syntastic_enable_signs=1
@@ -416,7 +416,7 @@ endif
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'indent')
   Plugin 'michaeljsmith/vim-indent-object'
-  let g:indentobject_meaningful_indentation = ['haml', 'sass', 'yaml', 'markdown']
+  let g:indentobject_meaningful_indentation = ['sass', 'yaml', 'markdown']
 
   Plugin 'Yggdroot/indentLine'
   let g:indentLine_fileType = ['yaml', 'coffee']
@@ -460,7 +460,6 @@ if count(g:vimified_packages, 'rails')
   let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers" --exclude="node_modules"'
   
   Plugin 'othree/html5.vim'
-  Plugin 'tpope/vim-haml'
 
   Plugin 'plasticboy/vim-markdown'
   let g:vim_markdown_folding_disabled=1
