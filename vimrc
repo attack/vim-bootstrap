@@ -457,7 +457,7 @@ endif
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'rails')
   Plugin 'tpope/vim-rails'
-  let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers"'
+  let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers" --exclude="node_modules"'
   
   Plugin 'othree/html5.vim'
   Plugin 'tpope/vim-haml'
@@ -546,7 +546,7 @@ if count(g:vimified_packages, 'ctags')
   Plugin 'folke/AutoTag'
 
   let g:autotagExcludeSuffixes="tml.xml.text.txt.vim"
-  map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc -R *<CR><CR>
+  map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc --exclude=node_modules -R *<CR><CR>
   map <C-\> :tnext<CR>
 endif
 
