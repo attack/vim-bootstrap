@@ -642,8 +642,8 @@ set nofoldenable
 set smartcase
 
 " store temporary files in a central spot
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupdir=~/.vim-tmp//,~/.tmp//,~/tmp//,/var/tmp//,/tmp//
+set directory=~/.vim-tmp//,~/.tmp//,~/tmp//,/var/tmp//,/tmp//
 
 " switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has('gui_running')
@@ -653,7 +653,7 @@ endif
 " keep undo history across sessions, by storing in file.
 if has('persistent_undo')
   silent !mkdir ~/.vim/backups > /dev/null 2>&1
-  set undodir=~/.vim/backups
+  set undodir=~/.vim/backups//
   set undofile
 endif
 
