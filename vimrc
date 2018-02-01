@@ -49,23 +49,6 @@ if count(g:vimified_packages, 'general')
   Plugin 'tpope/vim-unimpaired'
   Plugin 'tpope/vim-vinegar'
 
-  Plugin 'rking/ag.vim'
-  function! AgGrep()
-    let command = 'ag -i '.expand('<cword>')
-    cexpr system(command)
-    cw
-  endfunction
-
-  function! AgVisual()
-    normal gv"xy
-    let command = 'ag -i '.@x
-    cexpr system(command)
-    cw
-  endfunction
-
-  map <leader>a :call AgGrep()<CR>
-  vmap <leader>a :call AgVisual()<CR>
-
   Plugin 'tpope/vim-surround'
   " Add $ as a jQuery surround, _ for Underscore.js
   autocmd FileType javascript let b:surround_36 = "$(\r)"
@@ -96,14 +79,39 @@ if count(g:vimified_packages, 'general')
   Plugin 'FelikZ/ctrlp-py-matcher'
   let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
-  if executable('ag')
+  if executable('rg')
+    " Use Ripgrep over Grep
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+
+    let g:ctrlp_user_command = 'rg --hidden -i --files %s'
+    let g:ackprg = 'rg --vimgrep'
+  elseif executable('ag')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
 
     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ".git" --ignore ".DS_Store" --hidden -g ""'
+    let g:ackprg = 'ag --vimgrep'
   else
     nnoremap <silent> <leader>F :ClearCtrlPCache<CR>\|:CtrlP<CR>
   endif
+
+  Plugin 'rking/ag.vim'
+  function! AgGrep()
+    let command = g:ackprg.' -i '.expand('<cword>')
+    cexpr system(command)
+    cw
+  endfunction
+
+  function! AgVisual()
+    normal gv"xy
+    let command = g:ackprg.' -i '.@x
+    cexpr system(command)
+    cw
+  endfunction
+
+  map <leader>a :call AgGrep()<CR>
+  vmap <leader>a :call AgVisual()<CR>
 
   " File Renaming (credit: garybernhardt)
   function! RenameFile()
