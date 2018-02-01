@@ -69,7 +69,7 @@ Heavy influence from [vimified](https://github.com/zaiste/vimified)
 ## Discovery
 ```
 :Ag <search_term> = project pattern search (use Ag, install via brew)
-,a = call Ag using the current word under the cursor (or visually selected)
+,a = call Rg/Ag using the current word under the cursor (or visually selected)
 ,f = fuzzy file find (via CTRL-P)
 ,b = fuzzy open buffer find (via CTRL-P)
 ,F = fuzzy file find after resetign cache
