@@ -22,19 +22,12 @@ Install [rcm](https://github.com/thoughtbot/rcm)
 From within the `vim-bootstrap` directory
 
 ```sh
-brew brewdle
+brew bundle
 ```
 
 Install dotfiles:
 ```sh
 rcup -d vim-bootstrap -x README.md -x install -x Brewfile
-```
-
-### using install script
-
-Run install:
-```sh
-bash vim-bootstrap/install
 ```
 
 ## Updating
