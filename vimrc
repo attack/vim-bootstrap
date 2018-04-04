@@ -529,7 +529,6 @@ endif
 if count(g:vimified_packages, 'javascript')
   Plugin 'kchmck/vim-coffee-script'
   Plugin 'isRuslan/vim-es6'
-  Plugin 'mustache/vim-mustache-handlebars'
   Plugin 'pangloss/vim-javascript'
   Plugin 'kana/vim-textobj-function'
   Plugin 'thinca/vim-textobj-function-javascript'
