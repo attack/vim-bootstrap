@@ -465,8 +465,6 @@ endif
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'rails')
   Plugin 'tpope/vim-rails'
-  let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/helpers" --exclude="node_modules"'
-  
   Plugin 'othree/html5.vim'
 
   Plugin 'plasticboy/vim-markdown'
@@ -540,10 +538,32 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'ctags')
-  Plugin 'folke/AutoTag'
+  map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc -R *<CR><CR>
 
-  let g:autotagExcludeSuffixes="tml.xml.text.txt.vim"
-  map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc --exclude=node_modules -R *<CR><CR>
+  if count(g:vimified_packages, 'rails')
+    let g:rails_ctags_arguments='--exclude=".git" --exclude="log" --exclude="doc" --exclude="spec/javascripts/*helpers" --exclude="node_modules"'
+
+    function! SetRailsCtagsCmd ()
+      if executable("ripper-tags")
+        let g:Tlist_Ctags_Cmd='ripper-tags'
+      endif
+      map <leader>rt :Rtags<CR><CR>
+    endfunction
+
+    function! ResetCtagsCmd ()
+      if exists('g:Tlist_Ctags_Cmd')
+        unlet g:Tlist_Ctags_Cmd
+      endif
+      map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=doc -R *<CR><CR>
+    endfunction
+
+    augroup CtagCommand
+      autocmd!
+      autocmd User BufLeaveRails :call ResetCtagsCmd()
+      autocmd User BufEnterRails :call SetRailsCtagsCmd()
+    augroup END
+  end
+
   map <C-\> :tnext<CR>
 endif
 
