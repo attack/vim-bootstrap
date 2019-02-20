@@ -40,7 +40,7 @@ git pull
 
 Then just re-run the install steps, as they update as well.
 
-## Make your own cuctomizations
+## Make your own customizations
 
 Put your project sharable customizations in dotfiles appended with `.shared`:
 
