@@ -68,50 +68,48 @@ if count(g:vimified_packages, 'general')
   map \ :NERDTreeToggle<CR>
   map \| :NERDTreeFind<CR>
 
-  Plugin 'ctrlpvim/ctrlp.vim'
-  let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-  let g:ctrlp_clear_cache_on_exit = 0
-  let g:ctrlp_max_files = 0
-
-  nnoremap <silent> <leader>f :CtrlP<CR>
-  noremap <leader>b :CtrlPBuffer<CR>
-
-  Plugin 'FelikZ/ctrlp-py-matcher'
-  let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-
+  Plugin 'junegunn/fzf'
   if executable('rg')
-    " Use Ripgrep over Grep
-    set grepprg=rg\ --vimgrep\ --no-heading
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-
-    let g:ctrlp_user_command = 'rg --hidden -i --files %s'
-    let g:ackprg = 'rg --vimgrep'
-  elseif executable('ag')
-    " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
-
-    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ".git" --ignore ".DS_Store" --hidden -g ""'
-    let g:ackprg = 'ag --vimgrep'
+    let $FZF_DEFAULT_COMMAND= 'rg -a --files'
   else
-    nnoremap <silent> <leader>F :ClearCtrlPCache<CR>\|:CtrlP<CR>
+    let $FZF_DEFAULT_COMMAND= 'ag -g ""'
   endif
 
-  Plugin 'rking/ag.vim'
-  function! AgGrep()
+  let $FZF_DEFAULT_OPTS= '--color dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254,info:254,prompt:37,spinner:108,pointer:235,marker:235'
+  nnoremap <C-p> :FZF<CR>
+  nnoremap <silent> <leader>f :FZF<CR>
+  nnoremap <silent> <leader>] :Tags <c-r>=expand("<cword>")<cr><CR>
+
+  Plugin 'junegunn/fzf.vim'
+  let g:fzf_layout = {'down': '40%'}
+  let g:fzf_tags_command = 'ripper-tags -R'
+  noremap <leader>b :Buffers<CR>
+
+  Plugin 'mileszs/ack.vim'
+
+  if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+  endif
+
+  if executable('rg')
+    let g:ackprg = 'rg --vimgrep'
+  endif
+
+  function! AckGrep()
     let command = g:ackprg.' -i '.expand('<cword>')
     cexpr system(command)
     cw
   endfunction
 
-  function! AgVisual()
+  function! AckVisual()
     normal gv"xy
     let command = g:ackprg.' -i '.@x
     cexpr system(command)
     cw
   endfunction
 
-  map <leader>a :call AgGrep()<CR>
-  vmap <leader>a :call AgVisual()<CR>
+  map <leader>a :call AckGrep()<CR>
+  vmap <leader>a :call AckVisual()<CR>
 
   " File Renaming (credit: garybernhardt)
   function! RenameFile()
