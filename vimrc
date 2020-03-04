@@ -1,5 +1,4 @@
 set nocompatible
-filetype on
 filetype off
 
 let mapleader = ','
@@ -569,7 +568,7 @@ endif
 "
 """""""""""""""""""""""""""""""""""""""
 if count(g:vimified_packages, 'colour') || count(g:vimified_packages, 'color')
-  Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+  Plugin 'chriskempson/base16-vim'
 
   :hi TabLineFill term=bold cterm=bold ctermbg=237
 endif
@@ -614,8 +613,8 @@ if count(g:vimified_packages, 'coding')
 endif
 
 if count(g:vimified_packages, 'colour') || count(g:vimified_packages, 'color')
-  colorscheme Tomorrow-Night-Eighties
-endif
+  colorscheme base16-tomorrow-night
+end
 
 "
 " Options
