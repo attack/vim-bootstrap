@@ -19,7 +19,7 @@ endif
 " which package you would like to include
 "
 if ! exists('g:vimified_packages')
-  let g:vimified_packages = ['general', 'fancy', 'coding', 'indent', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'colour']
+  let g:vimified_packages = ['general', 'fancy', 'coding', 'indent', 'ruby', 'rails', 'rspec', 'javascript', 'ctags', 'colour', 'go']
 endif
 
 " Vundle
@@ -519,6 +519,16 @@ if count(g:vimified_packages, 'rspec')
   map <leader>dt :call StartCurrentSpecFile()<CR>
   map <leader>ds :call StartNearestSpec()<CR>
   map <leader>dl :call StartLastSpec()<CR>
+endif
+
+" Package: Go Lang
+"
+"""""""""""""""""""""""""""""""""""""""
+if count(g:vimified_packages, 'go')
+  Plugin 'fatih/vim-go'
+
+  let g:go_fmt_command = "goimports"
+  let g:go_list_type = "quickfix"
 endif
 
 " Package: Javascript
