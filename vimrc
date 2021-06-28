@@ -90,6 +90,7 @@ if count(g:vimified_packages, 'general')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
 
+    let g:ctrlp_working_path = 'r'
     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ".git" --ignore ".DS_Store" --hidden -g ""'
     let g:ackprg = 'ag --vimgrep'
   else
