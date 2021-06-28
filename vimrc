@@ -730,6 +730,10 @@ map <silent> <leader>y :<C-u>silent '<,'>w !pbcopy<CR>
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
 map <leader>C :let @* = expand("%").":".line(".")<CR>:echo "Copied: ".expand("%").":".line(".")<CR>
 
+" copy migration number from current file path to system pasteboard
+map <leader>MV :let @* = substitute(expand("%:t"), '\D', '', 'g')<CR>:echo "Copied Migration Version: ".substitute(expand("%:t"), '\D', '', 'g')<CR>
+map <leader>V :let @* = substitute(expand("%:t"), '\D', '', 'g')<CR>:echo "Copied Migration Version: ".substitute(expand("%:t"), '\D', '', 'g')<CR>
+
 " indent/unindent visual mode selection with tab/shift+tab
 vmap <tab> >gv
 vmap <s-tab> <gv
