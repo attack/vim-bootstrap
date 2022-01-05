@@ -70,8 +70,9 @@ if count(g:vimified_packages, 'general')
 
   Plugin 'ctrlpvim/ctrlp.vim'
   let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
-  let g:ctrlp_clear_cache_on_exit = 0
+  " let g:ctrlp_clear_cache_on_exit = 0
   let g:ctrlp_max_files = 0
+  " let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
   nnoremap <silent> <leader>f :CtrlP<CR>
   noremap <leader>b :CtrlPBuffer<CR>
@@ -82,16 +83,18 @@ if count(g:vimified_packages, 'general')
   if executable('rg')
     " Use Ripgrep over Grep
     set grepprg=rg\ --vimgrep\ --no-heading
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
+    " set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-    let g:ctrlp_user_command = 'rg --hidden -i --files %s'
-    let g:ackprg = 'rg --vimgrep'
+    " :echom "RG found"
+    let g:ctrlp_user_command = 'rg --hidden -g \!.git -g \!tags -g \!sorbet -g \!node_modules --files %s'
+    let g:ctrlp_use_caching = 0
+    let g:ackprg = 'rg --vimgrep -g \!tags -g \!sorbet -g \!node_modules'
   elseif executable('ag')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
 
-    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ".git" --ignore ".DS_Store" --hidden -g ""'
-    let g:ackprg = 'ag --vimgrep'
+    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ".git" --ignore ".DS_Store" --ignore "node_modules" --hidden -g ""'
+    let g:ackprg = 'ag --vimgrep --ignore "tags" --ignore "sorbet" --ignore "node_modules"'
   else
     nnoremap <silent> <leader>F :ClearCtrlPCache<CR>\|:CtrlP<CR>
   endif
@@ -112,18 +115,6 @@ if count(g:vimified_packages, 'general')
 
   map <leader>a :call AgGrep()<CR>
   vmap <leader>a :call AgVisual()<CR>
-
-  " File Renaming (credit: garybernhardt)
-  function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-      exec ':saveas ' . new_name
-      exec ':silent !rm ' . old_name
-      redraw!
-    endif
-  endfunction
-  map <leader>n :call RenameFile()<cr>
 
   " Smart Tab completion (credit: garybernhardt)
   function! InsertTabWrapper()
@@ -663,7 +654,8 @@ else
 endif
 
 set showtabline=2  " always show tab bar
-set showmatch      " show matching brackets
+set noshowmatch      " DO NOT show matching brackets
+let loaded_matchparen = 1
 set hidden         " allow hidden, unsaved buffers
 set splitbelow     " add new window towards right
 set splitright     " add new window towards bottom
